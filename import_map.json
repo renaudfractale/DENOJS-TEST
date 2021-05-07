@@ -1,0 +1,6 @@
+{
+    "imports" :{
+        "uuid/" :  "https://deno.land/std@0.95.0/uuid/",
+        "math/" : "https://deno.land/x/math@v1.1.0/"
+    }
+}
