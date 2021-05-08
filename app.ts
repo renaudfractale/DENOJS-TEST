@@ -49,10 +49,10 @@ console.log(b)
 
 
 
-let axeW = new Axe("W",false,-4.0,4.0,1000)
-let axeX = new Axe("X",false,-4.0,4.0,1000)
-let axeY = new Axe("Y",false,-4.0,4.0,1000)
-let axeZ = new Axe("Z",true,0.0,0.0,0)
+let axeW = new Axe("W",false,-2.0,2.0,500)
+let axeX = new Axe("X",false,-2.0,2.0,500)
+let axeY = new Axe("Y",false,-2.0,2.0,500)
+let axeZ = new Axe("Z",true,0.6,0.0,0)
 
 
 
@@ -71,5 +71,7 @@ console.log(JSON.stringify(simulations[0],undefined,5))
 
 let computeTest : Compute = new Compute(simulations[0])
 console.log(new Date)
-await computeTest.Compute()
+//await computeTest.Compute()
 console.log(new Date)
+await computeTest.Plot()
+
