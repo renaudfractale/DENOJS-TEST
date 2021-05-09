@@ -25,7 +25,9 @@ console.log(file)
 */
 
 import { v4 } from 'uuid/mod.ts'
-import { Quaternion, Axe, Parameter, Simulation , Compute} from './Libs/Quaternion.ts'
+import { Quaternion, Axe, Parameter, Simulation} from './Libs/Quaternion.ts'
+import { Compute} from './Libs/ComputeV1.ts'
+
 const id = v4.generate()
 console.log(id)
 
@@ -49,9 +51,9 @@ console.log(b)
 
 
 
-let axeW = new Axe("W",false,-2.0,2.0,500)
-let axeX = new Axe("X",false,-2.0,2.0,500)
-let axeY = new Axe("Y",false,-2.0,2.0,500)
+let axeW = new Axe("W",false,-0.40,0.40,5)
+let axeX = new Axe("X",false,-0.40,0.40,6)
+let axeY = new Axe("Y",false,-0.40,0.40,7)
 let axeZ = new Axe("Z",true,0.6,0.0,0)
 
 
@@ -71,7 +73,7 @@ console.log(JSON.stringify(simulations[0],undefined,5))
 
 let computeTest : Compute = new Compute(simulations[0])
 console.log(new Date)
-//await computeTest.Compute()
+await computeTest.Compute()
 console.log(new Date)
 await computeTest.Plot()
 
