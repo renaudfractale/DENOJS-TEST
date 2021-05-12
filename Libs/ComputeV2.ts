@@ -1,5 +1,6 @@
 import { Quaternion, Axe, Parameter } from './QuaternionV2.ts'
 import { existsSync } from "https://deno.land/std/fs/mod.ts";
+
 export class Compute{
     parameter : Parameter;
 
@@ -72,7 +73,20 @@ export class Compute{
         }
         await Deno.writeTextFile("data.txt",txt,{append : true})
     }
+    async Filtrage(fileBin : string){
+        //Lecture du fichier Binaire
+        let TabUInu = await Deno.readFile(fileBin)
 
+        for (let index = 0; index < TabUInu.length; index++) {
+            
+            
+            
+            
+            const value = TabUInu[index];
+
+            
+        }
+    }
     async Compute() : Promise<void> {
         // ----------------  Parametrage des boucles --------------------//
 
@@ -101,6 +115,7 @@ export class Compute{
 
         //---------------------- Boucles For ------------------
         let posArray = 0;
+
         for (let wpt : number = 0.0 ; wpt < nbPointsW ; wpt++) {
             let w = this.CurrentValue(wpt,stepW,startW,nbPointsW)
             console.log(wpt/nbPointsW*100)
@@ -110,7 +125,35 @@ export class Compute{
                     let y = this.CurrentValue(ypt,stepY,startY,nbPointsY)
                     for (let zpt : number = 0.0 ; zpt < nbPointsZ ; zpt++) {
                         let z = this.CurrentValue(zpt,stepZ,startZ,nbPointsZ)
-                        arrayInt[posArray] = this.ComputeIter(new Quaternion(w,x,y,z))
+
+                        //if(wpt == 0.0 ||  wpt >= (nbPointsW-1) || xpt == 0.0 ||  xpt >= (nbPointsX-1) || ypt == 0.0 ||  ypt >= (nbPointsY-1) || zpt == 0.0 ||  zpt >= (nbPointsZ-1)){
+                            arrayInt[posArray] = this.ComputeIter(new Quaternion(w,x,y,z))
+                        /*} else {
+                            let value = this.ComputeIter(new Quaternion(w,x,y,z))
+                            let etat : boolean = false
+                            for(let wi : number = -1 ; wi <= 1 ; wi++ ){
+                                let wiv = this.CurrentValue(wpt+wi,stepW,startW,nbPointsW)
+                                for(let xi : number = -1 ; xi <= 1 ; xi++ ){
+                                    let xiv = this.CurrentValue(xpt+xi,stepX,startX,nbPointsX)
+                                    for(let yi : number = -1 ; yi <= 1 ; yi++ ){
+                                        let yiv = this.CurrentValue(ypt+yi,stepY,startY,nbPointsY)
+
+                                        if(this.ComputeIter(new Quaternion(wiv,xiv,yiv,z)) != value){
+                                            arrayInt[posArray] = value
+                                            etat=true
+                                            break;
+                                        }
+                                    }
+                                    if (etat) {
+                                        break;
+                                    }
+                                }
+                                if (etat) {
+                                    break;
+                                }
+                            }
+                        }*/
+                        
                         posArray++;
                     }
                 }

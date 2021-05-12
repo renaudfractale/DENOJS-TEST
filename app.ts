@@ -25,7 +25,7 @@ console.log(file)
 */
 
 import { v4 } from 'uuid/mod.ts'
-import { Quaternion, Axe, Parameter, Simulation} from './Libs/Quaternion.ts'
+import * as Q3 from './Libs/QuaternionV3.ts'
 import { Compute} from './Libs/ComputeV1.ts'
 
 const id = v4.generate()
@@ -35,45 +35,49 @@ console.log(id)
 
 
 
-let a :Quaternion = new Quaternion(1.0,2.0,3.0,4.0)
-let b :Quaternion = new Quaternion(1.0,2.0,3.0,4.0)
-console.log(a.PowerFloat(1.0))
-console.log(b.PowerInt(2.0))
-console.log(a.Normalise())
-console.log(b.Normalise())
-console.log(a)
-console.log(b)
 
 
 
 
+let axeW = new Q3.QAxe(Q3.EnumQAxe.W,Q3.EnumPlotAxe.X,-1.0,1.0,1000)
+let axeX = new Q3.QAxe(Q3.EnumQAxe.X,Q3.EnumPlotAxe.Y,-1.0,1.0,1000)
+let axeY = new Q3.QAxe(Q3.EnumQAxe.Y,Q3.EnumPlotAxe.Z,-1.0,1.0,1000)
+let axeZ = new Q3.QAxe(Q3.EnumQAxe.Z,Q3.EnumPlotAxe.T,-1.0,1.0,100)
 
 
 
 
-let axeW = new Axe("W",false,-0.40,0.40,5)
-let axeX = new Axe("X",false,-0.40,0.40,6)
-let axeY = new Axe("Y",false,-0.40,0.40,7)
-let axeZ = new Axe("Z",true,0.6,0.0,0)
+let  parameterG = new Q3.ParameterGlobale(2.0,4.0,254.0,axeW,axeX,axeY,axeZ)
+let axes = parameterG.ExportAxes()
 
+let axePlot = parameterG.ExportAxes()
+let axeT : Q3.QAxe = axes[axes.length-1]
 
+for (let index = 0; index < axes.length; index++) {
+    const axe = axes[index];
 
-
-let  parameter = new Parameter(2.0,4.0,axeW,axeX,axeY,axeZ,254.0)
-
-
-
-let simulations : Simulation[] = new Array();
-for (let index = 1; index <= 8; index++) {
-    simulations.push(new Simulation(parameter,index))
+    if(axe.plotAxe == Q3.EnumPlotAxe.T){
+        axePlot.splice(index, 1)
+        axeT = axes[index]
+        break;
+    }
+    
 }
-console.log(simulations[0])
-console.log(JSON.stringify(simulations[0],undefined,5))
+
+for (let pt = 0; pt < axeT.nbPoints; pt++) {
+    const t = axeT.valueMin+((pt/axeT.nbPoints)*axeT.valueStep);
+    let axeTPlot : 
+    let parameterPlot : Q3.ParameterPlot =  new Q3.ParameterPlot(parameterG.power,parameterG.rmax,parameterG.nbLoopMax,,)
+
+    let simu = 
+}
 
 
+
+/*
 let computeTest : Compute = new Compute(simulations[0])
 console.log(new Date)
 await computeTest.Compute()
 console.log(new Date)
 await computeTest.Plot()
-
+*/
