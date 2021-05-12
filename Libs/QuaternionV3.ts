@@ -1,12 +1,13 @@
-
+import { v4 } from 'https://deno.land/std/uuid/mod.ts'
 
 export class Simulation{
     parameterPlot : ParameterPlot;
     parameterGlobale : ParameterGlobale;
-    
+    id : string
     constructor( parameterPlot : ParameterPlot, parameterGlobale : ParameterGlobale){
         this.parameterPlot = parameterPlot
         this.parameterGlobale = parameterGlobale
+        this.id = v4.generate()
     }
 }
 
@@ -42,7 +43,7 @@ export class ParameterGlobale{
     axeX : QAxe;
     axeY : QAxe;
     axeZ : QAxe;
-    
+    id : string
     constructor(power : number,rmax: number, nbLoopMax :number,axeW : QAxe,axeX : QAxe,axeY : QAxe,axeZ : QAxe){
         this.power =power;
         this.rmax =rmax;
@@ -51,6 +52,7 @@ export class ParameterGlobale{
         this.axeY =axeY;
         this.axeZ =axeZ;
         this.nbLoopMax = nbLoopMax
+        this.id = v4.generate()
     }
 
     ExportAxes() : QAxe[]{
@@ -75,7 +77,7 @@ export class PlotAxe{
         this.valueMin =valueMin;
         this.valueMax =valueMax;
         this.nbPoints =nbPoints;
-        this.valueStep= (valueMax - valueMin) / 2.0
+        this.valueStep= (valueMax - valueMin)
     }
 }
 
@@ -94,7 +96,7 @@ export class QAxe{
         this.valueMin =valueMin;
         this.valueMax =valueMax;
         this.nbPoints =nbPoints;
-        this.valueStep= (valueMax - valueMin) / 2.0
+        this.valueStep= (valueMax - valueMin)
     }
 }
 
