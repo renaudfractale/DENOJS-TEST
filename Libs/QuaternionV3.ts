@@ -10,7 +10,9 @@ export class Simulation{
         this.id = v4.generate()
     }
 }
-
+ export function GetName(simu : Simulation, extention : string){
+    return simu.parameterGlobale.id+"_"+simu.id+extention
+ }
 
 export class ParameterPlot{
     power: number;

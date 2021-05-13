@@ -16,7 +16,7 @@
             "valueMin": -1,
             "valueMax": 1,
             "valueStep": 2,
-            "nbPoints": 100,
+            "nbPoints": 1000,
             "plotAxe": 1,
             "qAxe": 0,
             "order": 0
@@ -25,7 +25,7 @@
             "valueMin": -1,
             "valueMax": 1,
             "valueStep": 2,
-            "nbPoints": 100,
+            "nbPoints": 1000,
             "plotAxe": 2,
             "qAxe": 1,
             "order": 1
@@ -34,7 +34,7 @@
             "valueMin": -1,
             "valueMax": 1,
             "valueStep": 2,
-            "nbPoints": 100,
+            "nbPoints": 1000,
             "plotAxe": 3,
             "qAxe": 2,
             "order": 2
