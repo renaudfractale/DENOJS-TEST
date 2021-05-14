@@ -27,10 +27,10 @@ console.log(file)
 import * as Q3 from './Libs/QuaternionV3.ts'
 import {Compute} from './Libs/ComputeV3.ts'
 console.log("Création des Axes Q")
-let axeW = new Q3.QAxe(Q3.EnumQAxe.W,Q3.EnumPlotAxe.X,-1.0,1.0,100)
-let axeX = new Q3.QAxe(Q3.EnumQAxe.X,Q3.EnumPlotAxe.Y,-1.0,1.0,100)
-let axeY = new Q3.QAxe(Q3.EnumQAxe.Y,Q3.EnumPlotAxe.Z,-1.0,1.0,100)
-let axeZ = new Q3.QAxe(Q3.EnumQAxe.Z,Q3.EnumPlotAxe.T,-1.0,1.0,11)
+let axeW = new Q3.QAxe(Q3.EnumQAxe.W,Q3.EnumPlotAxe.X,-1.5,0.5,1000)
+let axeX = new Q3.QAxe(Q3.EnumQAxe.X,Q3.EnumPlotAxe.Y,-1.0,1.0,1000)
+let axeY = new Q3.QAxe(Q3.EnumQAxe.Y,Q3.EnumPlotAxe.Z,-1.0,0.0,500)
+let axeZ = new Q3.QAxe(Q3.EnumQAxe.Z,Q3.EnumPlotAxe.T,-0.10,0.10,3)
 
 
 
@@ -51,7 +51,7 @@ for (let index = 0; index < axes.length; index++) {
     }
     
 }
-/*
+
 console.log("Création des Json Simulations")
 for (let pt = 0; pt < axeT.nbPoints; pt++) {
     const t = axeT.valueMin+((pt/(axeT.nbPoints-1))*axeT.valueStep);
@@ -74,13 +74,16 @@ for (let pt = 0; pt < axeT.nbPoints; pt++) {
 
     let simu : Q3.Simulation = new Q3.Simulation(parameterPlot,parameterG)
     console.log("Ecriture des Json Simulations pour t("+pt+")= "+t)
-    await Deno.writeTextFile("Works/Pot/"+simu.GetName(),JSON.stringify(simu,undefined,4))
-
-
+    await Deno.writeTextFile("Works/Pot/"+Q3.GetName(simu,".json"),JSON.stringify(simu,undefined,4))
 }
-*/
+
+for await (const dirEntry of Deno.readDir('Works/Pot')) {
+    console.log(dirEntry);
+    if (dirEntry.isFile) {
+        let compute : Compute = new Compute("Works/Pot/"+dirEntry.name)
+        await compute.Launch()
+    }
+}
 
 
-let compute : Compute = new Compute("Works/Pot/1c99bd85-24a4-47a0-b9e9-346a32db350e_595fe434-7dd0-4f1d-a661-054d335433ed.json")
 
-compute.Launch()

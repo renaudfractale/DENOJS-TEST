@@ -3,15 +3,14 @@ import { moveSync }  from "https://deno.land/std/fs/mod.ts";
 
 enum EnumTypeOperation{
     Compute,
-    Filtrage,
-    Plot
+    FiltrageAndPlot,
 }
 
 
 export class Compute{
     simulation : Simulation;
     data : Uint8Array
-    filtre :  boolean[]
+    //filtre :  boolean[]
     nameFileIn :  string
     nameCurrent : string
     nameEnd : string
@@ -33,7 +32,7 @@ export class Compute{
         this.nameFiltre= "Works/Data/"+ GetName(this.simulation,".filtre")
 
         this.data = new  Uint8Array(this.simulation.parameterPlot.axeX.nbPoints*this.simulation.parameterPlot.axeY.nbPoints*this.simulation.parameterPlot.axeZ.nbPoints)
-        this.filtre = new Array(this.simulation.parameterPlot.axeX.nbPoints*this.simulation.parameterPlot.axeY.nbPoints*this.simulation.parameterPlot.axeZ.nbPoints)
+       // this.filtre = new Array(this.simulation.parameterPlot.axeX.nbPoints*this.simulation.parameterPlot.axeY.nbPoints*this.simulation.parameterPlot.axeZ.nbPoints)
         
     }
     
@@ -44,10 +43,10 @@ export class Compute{
         await Deno.writeFile(this.nameBin,this.data)
         Deno
         console.log("Filtrage")
-        await this.Loop(EnumTypeOperation.Filtrage)
+        await this.Loop(EnumTypeOperation.FiltrageAndPlot)
         //await Deno.writeTextFile(this.nameFiltre,this.filtre.toString())
-        console.log("Plot")
-        await this.Loop(EnumTypeOperation.Plot)
+        //console.log("Plot")
+        //await this.Loop(EnumTypeOperation.Plot)
         moveSync(this.nameCurrent,this.nameEnd)
     }
 
@@ -106,7 +105,7 @@ export class Compute{
                         let w =tabPosition[<number>EnumQAxe.W] 
                         this.data[posArray] = this.ComputeIter(new Quaternion(w,x,y,z))
 
-                    } else if(typeOperation == EnumTypeOperation.Filtrage){
+                    } else if(typeOperation == EnumTypeOperation.FiltrageAndPlot){
 
                         let arrayP : number[] = Array()
                         for (let x = -1; x <= 1; x++) {
@@ -123,44 +122,40 @@ export class Compute{
                         let etat : boolean = true
                         for (let index = 0; index < arrayP.length; index++) {
                             const pos = arrayP[index];
-                            if(pos<0){
+                            if(pos<0 || pos>=this.data.length){
                                 etat=false
                                 break
                             }
                         }
-                        // si pas de pos négative
-                        if(etat) {
+                        // si pas de pos négative ou > lentgh data en value >5
+                        if(etat && this.data[posArray]>5) {
                             let value  = this.data[posArray]
-                            let fitre : boolean = true
+                            let filtre : boolean = true
                             for (let index = 0; index < arrayP.length; index++) {
                                 const pos = arrayP[index];
                                 if(this.data[pos] != value){
-                                    fitre=false;
+                                    filtre=false;
                                     break
                                 }
                             }
-                            this.filtre[posArray] = fitre
+                            if (nblignePlot >= 10000) {
+                                await Deno.writeTextFile(this.namePlot,txtPlot,{append : true})
+                                txtPlot = ""
+                                nblignePlot = 0
+                            }
+    
+                            if(filtre){
+                                nblignePlot++
+                                txtPlot += this.data[posArray] +"\t"+tabPosition[axeX]+"\t"+tabPosition[axeY]+"\t"+tabPosition[axeZ]+"\n"
+                            }
                         }
-                    } else if(typeOperation == EnumTypeOperation.Plot){
-                        if (nblignePlot >= 10000) {
-                            await Deno.writeTextFile(this.namePlot,txtPlot,{append : true})
-                            txtPlot = ""
-                            nblignePlot = 0
-                        }
-
-                        if(this.filtre[posArray]){
-                            nblignePlot++
-                            txtPlot += this.data[posArray] +"\t"+tabPosition[axeX]+"\t"+tabPosition[axeY]+"\t"+tabPosition[axeZ]+"\n"
-                        }
-
                     }
-
                     posArray++;
                 }
             }
         }
 
-        if (typeOperation == EnumTypeOperation.Plot) {
+        if (typeOperation == EnumTypeOperation.FiltrageAndPlot) {
             await Deno.writeTextFile(this.namePlot,txtPlot,{append : true})
         }
     }
