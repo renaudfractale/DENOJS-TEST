@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Starter Template - Materialize</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/12.0.0/nouislider.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Quaternion3Ds</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="Exemples.html">Exemples</a></li>
+        <li><a href="Julia.html">Ensemble de Julia</a></li>
+        <li><a href="Mandelbrot.html">Mandelbrot</a></li>
+        <li><a href="ModeAnvance.html">Mode avancé</a></li>
+        <li><a href="About.html">About</a></li>
+        
+      </ul>
+
+      <ul id="nav-mobile" class="sidenav">
+        <li><a href="Exemples.html">Exemples</a></li>
+        <li><a href="Julia.html">Ensemble de Julia</a></li>
+        <li><a href="Mandelbrot.html">Mandelbrot</a></li>
+        <li><a href="ModeAnvance.html">Mode avancé</a></li>
+        <li><a href="About.html">About</a></li>
+      </ul>
+      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <h1 class="header center orange-text">Ensemble de Julia</h1>
+      <div class="row center">
+        <h5 class="header col s12 light">Création d'un ensemble Julia 4Ds</h5>
+      </div>
+      <br><br>
+
+    </div>
+  </div>
+  <div class="container">
+    <div class="section">
+      <form action="#">
+        <h3>Constante</h3>
+        <h5> Valeur de X (i) : <span id="ValueX">  </span>  </h5>
+        <p class="range-field">
+          <input type="range" id="RValueX" min="-4" max="4" step="0.01"  onchange="UpdateSlider()" />
+        </p>
+        <h5> Valeur de Y (j) : <span id="ValueY">  </span>  </h5>
+        <p class="range-field">
+          <input type="range" id="RValueY" min="-4" max="4" step="0.01"  onchange="UpdateSlider()" />
+        </p>
+        <h5> Valeur de Z (k) : <span id="ValueZ">  </span>  </h5>
+        <p class="range-field">
+          <input type="range" id="RValueZ" min="-4" max="4" step="0.01"  onchange="UpdateSlider()" />
+        </p>
+        <h5> Valeur de W (réel) : <span id="ValueW">  </span>  </h5>
+        <p class="range-field">
+          <input type="range" id="RValueW" min="-4" max="4" step="0.01"  onchange="UpdateSlider()" />
+        </p>
+        <h5> Norme du quaternion : <span id="ValueN">  </span>  </h5>
+        <hr>
+        <h3>Plage de recherche</h3>
+        <h5> Valeur de X (i) entre <span id="sliderXMin">  </span>  et <span id="sliderXMax">  </span> soit une plage de  <span id="sliderXstep">  </span> </h5>
+        <p class="range-field">
+          <input type="range" id="sliderX1" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
+        </p>
+        <p class="range-field">
+          <input type="range" id="sliderX2" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
+        </p>
+        <h5> Valeur de Y (j) entre <span id="sliderYMin">  </span>  et <span id="sliderYMax">  </span>  soit une plage de  <span id="sliderYstep">  </span> </h5>
+        <p class="range-field">
+          <input type="range" id="sliderY1" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
+        </p>
+        <p class="range-field">
+          <input type="range" id="sliderY2" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
+        </p>
+        <h5> Valeur de Z (k) entre <span id="sliderZMin">  </span>  et <span id="sliderZMax">  </span> soit une plage de  <span id="sliderZstep">  </span> </h5>
+        <p class="range-field">
+          <input type="range" id="sliderZ1" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
+        </p>
+        <p class="range-field">
+          <input type="range" id="sliderZ2" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
+        </p>
+        <h5> Valeur de W (réel) entre <span id="sliderWMin">  </span>  et <span id="sliderWMax">  </span> soit une plage de  <span id="sliderWstep">  </span> </h5>
+        <p class="range-field">
+          <input type="range" id="sliderW1" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
+        </p>
+        <p class="range-field">
+          <input type="range" id="sliderW2" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
+        </p>
+
+        
+      </form>
+    </div>
+  </div>
+  <script>
+    function UpdateSlider2(){
+      document.getElementById("sliderXMin").innerHTML = Math.min(parseFloat(document.getElementById("sliderX1").value),parseFloat(document.getElementById("sliderX2").value))
+      document.getElementById("sliderXMax").innerHTML = Math.max(document.getElementById("sliderX1").value,document.getElementById("sliderX2").value)
+      document.getElementById("sliderXstep").innerHTML = parseFloat(document.getElementById("sliderXMax").innerHTML - document.getElementById("sliderXMin").innerHTML).toPrecision(3)
+
+      document.getElementById("sliderYMin").innerHTML = Math.min((document.getElementById("sliderY1").value),(document.getElementById("sliderY2").value))
+      document.getElementById("sliderYMax").innerHTML = Math.max(document.getElementById("sliderY1").value,document.getElementById("sliderY2").value)
+      document.getElementById("sliderYstep").innerHTML = parseFloat(document.getElementById("sliderYMax").innerHTML - document.getElementById("sliderYMin").innerHTML).toPrecision(3)
+
+      document.getElementById("sliderZMin").innerHTML = Math.min((document.getElementById("sliderZ1").value),(document.getElementById("sliderZ2").value))
+      document.getElementById("sliderZMax").innerHTML = Math.max(document.getElementById("sliderZ1").value,document.getElementById("sliderZ2").value)
+      document.getElementById("sliderZstep").innerHTML = parseFloat(document.getElementById("sliderZMax").innerHTML - document.getElementById("sliderZMin").innerHTML).toPrecision(3)
+
+      document.getElementById("sliderWMin").innerHTML = Math.min((document.getElementById("sliderW1").value),(document.getElementById("sliderW2").value))
+      document.getElementById("sliderWMax").innerHTML = Math.max(document.getElementById("sliderW1").value,document.getElementById("sliderW2").value)
+      document.getElementById("sliderWstep").innerHTML = parseFloat(document.getElementById("sliderWMax").innerHTML - document.getElementById("sliderWMin").innerHTML).toPrecision(3)
+
+
+    }
+
+   
+
+    function UpdateSlider(){
+      document.getElementById("ValueX").innerHTML =  document.getElementById("RValueX").value
+      document.getElementById("ValueY").innerHTML =  document.getElementById("RValueY").value
+      document.getElementById("ValueZ").innerHTML =  document.getElementById("RValueZ").value
+      document.getElementById("ValueW").innerHTML =  document.getElementById("RValueW").value
+
+      document.getElementById("ValueN").innerHTML =Math.sqrt( parseFloat( document.getElementById("RValueX").value)*parseFloat( document.getElementById("RValueX").value)+parseFloat( document.getElementById("RValueY").value)*parseFloat( document.getElementById("RValueY").value)+parseFloat( document.getElementById("RValueZ").value)*parseFloat( document.getElementById("RValueZ").value)+parseFloat( document.getElementById("RValueW").value)*parseFloat( document.getElementById("RValueW").value)).toPrecision(3)
+
+    }
+    UpdateSlider2()
+    UpdateSlider()
+  </script>
+  <!--
+  <footer class="page-footer orange">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Company Bio</h5>
+          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+
+
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Settings</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Connect</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+      </div>
+    </div>
+  </footer>
+-->
+
+  <!--  Scripts-->
+  
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!--<script href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/12.0.0/nouislider.js"></script>-->
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  </body>
+</html>
