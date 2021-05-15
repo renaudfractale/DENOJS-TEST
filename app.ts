@@ -1,28 +1,6 @@
-//fetch
-/*
-const res = await fetch('https://jsonplaceholder.typicode.com/todos/1')
-const todo = await res.json()
+import { parse } from "https://deno.land/std/flags/mod.ts";
 
-console.log(todo)
-*/
-//Blob
-/*
-const blob = new Blob([new Uint8Array([5,10])])
-console.log(blob)
-
-//FormData
-const formData = new FormData()
-formData.append("key1","value1")
-formData.append("key2",blob)
-*/
-/*
-const data = await Deno.readFile("text.txt")
-console.log(data)
-
-const file = await Deno.open("text.txt")
-
-console.log(file)
-*/
+console.dir(parse(Deno.args));
 
 import * as Q3 from './Libs/QuaternionV3.ts'
 import {Compute} from './Libs/ComputeV3.ts'
