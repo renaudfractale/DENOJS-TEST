@@ -153,9 +153,9 @@
         </select>
         <label>Axe du temps (T)</label>
       </div>
-      <h5> Pas de numerisation : <span id="ValueNumerisation">  </span></h5>
+      <h5> Pas de numerisation : <span id="ValueNumerisation">  </span> soit un nombre de point maximal de <span id="ValueNumerisationPt">  </span> </h5>
         <p class="range-field">
-          <input type="range" id="Numerisation" min="0.01" max="0.5" step="0.01"  onchange="UpdateNumerisation()" />
+          <input type="range" id="Numerisation" min="0.001" max="0.5" step="0.001"  onchange="UpdateNumerisation()" />
         </p>
     </div>
     <h4>  Analyse :  <div class="switch" onchange="Analyse()">
@@ -177,11 +177,12 @@
       </select>
       <label>Axe du temps (T)</label>
     </div>
-    <h5> Pas de numerisation : <span id="ValueAnalyse">  </span></h5>
+    <h5> Pas de numerisation : <span id="ValueAnalyse">  </span> soit un nombre de point maximal de <span id="ValueAnalysePt">  </span> </h5>
       <p class="range-field">
-        <input type="range" id="RangeAnalyse" min="0.01" max="0.25" step="0.01"  onchange="UpdateAnalyse()" />
+        <input type="range" id="RangeAnalyse" min="0.001" max="0.25" step="0.001"  onchange="UpdateAnalyse()" />
       </p>
-  </div>
+   </div>
+   <a onclick="CreateJSONFile()" id="download-button" class="btn-large orange" style="width: 100%;">Générateur de Json</a>
       </form>
     </div>
   </div>
@@ -213,11 +214,18 @@
 
     function UpdateNumerisation(){
       document.getElementById("ValueNumerisation").innerHTML =  document.getElementById("Numerisation").value
+
+      let Max = Math.max( document.getElementById("sliderXstep").innerHTML, document.getElementById("sliderYstep").innerHTML, document.getElementById("sliderZstep").innerHTML, document.getElementById("sliderWstep").innerHTML)
+      document.getElementById("ValueNumerisationPt").innerHTML = Math.floor(Max/document.getElementById("Numerisation").value)
     }
 
     function UpdateAnalyse(){
       document.getElementById("ValueAnalyse").innerHTML =  document.getElementById("RangeAnalyse").value
+
+      let Max = Math.max( document.getElementById("sliderXstep").innerHTML, document.getElementById("sliderYstep").innerHTML, document.getElementById("sliderZstep").innerHTML, document.getElementById("sliderWstep").innerHTML)
+      document.getElementById("ValueAnalysePt").innerHTML = Math.floor(Max/document.getElementById("RangeAnalyse").value)
     }
+
     function RandomC(){
       document.getElementById("RValueX").value = (Math.random()-0.5)*3
       document.getElementById("RValueY").value = (Math.random()-0.5)*3
@@ -254,7 +262,8 @@
       document.getElementById("sliderWMax").innerHTML = Math.max(document.getElementById("sliderW1").value,document.getElementById("sliderW2").value)
       document.getElementById("sliderWstep").innerHTML = parseFloat(document.getElementById("sliderWMax").innerHTML - document.getElementById("sliderWMin").innerHTML).toPrecision(3)
 
-
+      UpdateAnalyse()
+      UpdateNumerisation()
     }
     function UpdateTailleImg(){
       document.getElementById("ValueTailleImg").innerHTML =  document.getElementById("TailleImg").value
