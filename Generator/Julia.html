@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Starter Template - Materialize</title>
+  <title>Julia - Quaternion4Ds</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -20,7 +20,7 @@
 </head>
 <body>
   <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Quaternion3Ds</a>
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Quaternion4Ds</a>
       <ul class="right hide-on-med-and-down">
         <li><a href="Exemples.html">Exemples</a></li>
         <li><a href="Julia.html">Ensemble de Julia</a></li>
@@ -53,8 +53,8 @@
   </div>
   <div class="container">
     <div class="section">
-      <form action="#">
-        <h3>Constante</h3>  <a onclick="RandomC()" id="download-button" class="btn-large waves-effect waves-light orange">Générateur aléatoire</a>
+      <form action="#"> <!-- btn-large waves-effect waves-light-->
+        <h3>Constante</h3>  <a onclick="RandomC()" id="download-button" class="btn-large waves-light orange">Générateur aléatoire</a>
         <h5> Valeur de X (i) : <span id="ValueX">  </span>  </h5>
         <p class="range-field">
           <input type="range" id="RValueX" min="-4" max="4" step="0.01"  onchange="UpdateSlider()" />
@@ -76,7 +76,7 @@
         <hr>
         <br>
         <h3>Plage de recherche</h3>
-        <a onclick="BorneAuto()" id="download-button" class="btn-large waves-effect waves-light orange">Borne Auto</a>
+        <a onclick="BorneAuto()" id="download-button" class="btn-large  orange">Borne Auto</a>
         <h5> Valeur de X (i) entre <span id="sliderXMin">  </span>  et <span id="sliderXMax">  </span> soit une plage de  <span id="sliderXstep">  </span> </h5>
         <p class="range-field">
           <input type="range" id="sliderX1" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
@@ -158,6 +158,30 @@
           <input type="range" id="Numerisation" min="0.01" max="0.5" step="0.01"  onchange="UpdateNumerisation()" />
         </p>
     </div>
+    <h4>  Analyse :  <div class="switch" onchange="Analyse()">
+      <label>
+        Off
+        <input type="checkbox" id="switchAnalyse">
+        <span class="lever"></span>
+        On
+      </label>
+    </div>
+  </h4>
+  <div id="Analyse">
+    <div class="input-field col s12">
+      <select>
+        <option value="W">Axe W</option>
+        <option value="X">Axe X</option>
+        <option value="Y">Axe Y</option>
+        <option value="Z">Axe Z</option>
+      </select>
+      <label>Axe du temps (T)</label>
+    </div>
+    <h5> Pas de numerisation : <span id="ValueAnalyse">  </span></h5>
+      <p class="range-field">
+        <input type="range" id="RangeAnalyse" min="0.01" max="0.25" step="0.01"  onchange="UpdateAnalyse()" />
+      </p>
+  </div>
       </form>
     </div>
   </div>
@@ -178,8 +202,21 @@
         document.getElementById("scarlet3D").style.display = "block";
       }
     }
+
+    function Analyse(){
+      if(!document.getElementById("switchAnalyse").checked){
+        document.getElementById("Analyse").style.display = "none";
+      } else {
+        document.getElementById("Analyse").style.display = "block";
+      }
+    }
+
     function UpdateNumerisation(){
       document.getElementById("ValueNumerisation").innerHTML =  document.getElementById("Numerisation").value
+    }
+
+    function UpdateAnalyse(){
+      document.getElementById("ValueAnalyse").innerHTML =  document.getElementById("RangeAnalyse").value
     }
     function RandomC(){
       document.getElementById("RValueX").value = (Math.random()-0.5)*3
@@ -238,6 +275,8 @@
     UpdateNumerisation()
     scarlet3D()
     Images()
+    Analyse()
+    UpdateAnalyse()
   // Or with jQuery
 
   $(document).ready(function(){

@@ -3,16 +3,24 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Starter Template - Materialize</title>
+  <title>Mandelbrot - Quaternion4Ds</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/12.0.0/nouislider.css" rel="stylesheet">
+
+
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!--<script href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/12.0.0/nouislider.js"></script>-->
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+
 </head>
 <body>
   <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Quaternion3Ds</a>
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Quaternion4Ds</a>
       <ul class="right hide-on-med-and-down">
         <li><a href="Exemples.html">Exemples</a></li>
         <li><a href="Julia.html">Ensemble de Julia</a></li>
@@ -35,56 +43,211 @@
   <div class="section no-pad-bot" id="index-banner">
     <div class="container">
       <br><br>
-      <h1 class="header center orange-text">Starter Template</h1>
+      <h1 class="header center orange-text">Fractal de Mandelbrot</h1>
       <div class="row center">
-        <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-      </div>
-      <div class="row center">
-        <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>
+        <h5 class="header col s12 light">Création d'une Fractale de Mandelbrot 4Ds</h5>
       </div>
       <br><br>
 
     </div>
   </div>
-
-
   <div class="container">
     <div class="section">
-
-      <!--   Icon Section   -->
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
-            <h5 class="center">Speeds up development</h5>
-
-            <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
-          </div>
+      <form action="#"> <!-- btn-large waves-effect waves-light-->
+        <h3>Plage de recherche</h3>
+        <a onclick="BorneAuto()" id="download-button" class="btn-large  orange">Borne Auto</a>
+        <h5> Valeur de X (i) entre <span id="sliderXMin">  </span>  et <span id="sliderXMax">  </span> soit une plage de  <span id="sliderXstep">  </span> </h5>
+        <p class="range-field">
+          <input type="range" id="sliderX1" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
+        </p>
+        <p class="range-field">
+          <input type="range" id="sliderX2" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
+        </p>
+        <h5> Valeur de Y (j) entre <span id="sliderYMin">  </span>  et <span id="sliderYMax">  </span>  soit une plage de  <span id="sliderYstep">  </span> </h5>
+        <p class="range-field">
+          <input type="range" id="sliderY1" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
+        </p>
+        <p class="range-field">
+          <input type="range" id="sliderY2" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
+        </p>
+        <h5> Valeur de Z (k) entre <span id="sliderZMin">  </span>  et <span id="sliderZMax">  </span> soit une plage de  <span id="sliderZstep">  </span> </h5>
+        <p class="range-field">
+          <input type="range" id="sliderZ1" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
+        </p>
+        <p class="range-field">
+          <input type="range" id="sliderZ2" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
+        </p>
+        <h5> Valeur de W (réel) entre <span id="sliderWMin">  </span>  et <span id="sliderWMax">  </span> soit une plage de  <span id="sliderWstep">  </span> </h5>
+        <p class="range-field">
+          <input type="range" id="sliderW1" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
+        </p>
+        <p class="range-field">
+          <input type="range" id="sliderW2" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
+        </p>
+        <br>
+        <hr>
+        <br>
+        <h3>Sorties : </h3>
+        <h4> Images :  <div class="switch" onchange="Images()">
+          <label>
+            Off
+            <input type="checkbox" id="switchImage">
+            <span class="lever"></span>
+            On
+          </label>
         </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
-            <h5 class="center">User Experience Focused</h5>
-
-            <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
-          </div>
+      </h4>
+        <div id="Images">
+        <div class="input-field col s12">
+          <select>
+            <option value="W">Axe W</option>
+            <option value="X">Axe X</option>
+            <option value="Y">Axe Y</option>
+            <option value="Z">Axe Z</option>
+          </select>
+          <label>Axe du temps (T)</label>
         </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">settings</i></h2>
-            <h5 class="center">Easy to work with</h5>
-
-            <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
-          </div>
-        </div>
+        <h5> Taille d'une image : <span id="ValueTailleImg">  </span>  Mo </h5>
+        <p class="range-field">
+          <input type="range" id="TailleImg" min="0.1" max="100" step="0.1"  onchange="UpdateTailleImg()" />
+        </p>
       </div>
 
+      <h4> scarlet 3D :  <div class="switch" onchange="scarlet3D()">
+        <label>
+          Off
+          <input type="checkbox" id="switchscarlet3D">
+          <span class="lever"></span>
+          On
+        </label>
+      </div>
+    </h4>
+    <div id="scarlet3D">
+      <div class="input-field col s12">
+        <select>
+          <option value="W">Axe W</option>
+          <option value="X">Axe X</option>
+          <option value="Y">Axe Y</option>
+          <option value="Z">Axe Z</option>
+        </select>
+        <label>Axe du temps (T)</label>
+      </div>
+      <h5> Pas de numerisation : <span id="ValueNumerisation">  </span></h5>
+        <p class="range-field">
+          <input type="range" id="Numerisation" min="0.01" max="0.5" step="0.01"  onchange="UpdateNumerisation()" />
+        </p>
     </div>
-    <br><br>
+    <h4>  Analyse :  <div class="switch" onchange="Analyse()">
+      <label>
+        Off
+        <input type="checkbox" id="switchAnalyse">
+        <span class="lever"></span>
+        On
+      </label>
+    </div>
+  </h4>
+  <div id="Analyse">
+    <div class="input-field col s12">
+      <select>
+        <option value="W">Axe W</option>
+        <option value="X">Axe X</option>
+        <option value="Y">Axe Y</option>
+        <option value="Z">Axe Z</option>
+      </select>
+      <label>Axe du temps (T)</label>
+    </div>
+    <h5> Pas de numerisation : <span id="ValueAnalyse">  </span></h5>
+      <p class="range-field">
+        <input type="range" id="RangeAnalyse" min="0.01" max="0.25" step="0.01"  onchange="UpdateAnalyse()" />
+      </p>
   </div>
+      </form>
+    </div>
+  </div>
+  <script>
+    function Images(){
+      if(!document.getElementById("switchImage").checked){
+        document.getElementById("Images").style.display = "none";
+      } else {
+        document.getElementById("Images").style.display = "block";
+      }
+    }
 
+
+    function scarlet3D(){
+      if(!document.getElementById("switchscarlet3D").checked){
+        document.getElementById("scarlet3D").style.display = "none";
+      } else {
+        document.getElementById("scarlet3D").style.display = "block";
+      }
+    }
+
+    function Analyse(){
+      if(!document.getElementById("switchAnalyse").checked){
+        document.getElementById("Analyse").style.display = "none";
+      } else {
+        document.getElementById("Analyse").style.display = "block";
+      }
+    }
+
+    function UpdateNumerisation(){
+      document.getElementById("ValueNumerisation").innerHTML =  document.getElementById("Numerisation").value
+    }
+
+    function UpdateAnalyse(){
+      document.getElementById("ValueAnalyse").innerHTML =  document.getElementById("RangeAnalyse").value
+    }
+    function BorneAuto(){
+      document.getElementById("sliderX1").value = -4.0
+      document.getElementById("sliderX2").value = 4.0
+      document.getElementById("sliderY1").value = -4.0
+      document.getElementById("sliderY2").value = 4.0
+      document.getElementById("sliderZ1").value = -4.0
+      document.getElementById("sliderZ2").value = 4.0
+      document.getElementById("sliderW1").value = -4.0
+      document.getElementById("sliderW2").value = 4.0
+      UpdateSlider2()
+    }
+
+    function UpdateSlider2(){
+      document.getElementById("sliderXMin").innerHTML = Math.min(parseFloat(document.getElementById("sliderX1").value),parseFloat(document.getElementById("sliderX2").value))
+      document.getElementById("sliderXMax").innerHTML = Math.max(document.getElementById("sliderX1").value,document.getElementById("sliderX2").value)
+      document.getElementById("sliderXstep").innerHTML = parseFloat(document.getElementById("sliderXMax").innerHTML - document.getElementById("sliderXMin").innerHTML).toPrecision(3)
+
+      document.getElementById("sliderYMin").innerHTML = Math.min((document.getElementById("sliderY1").value),(document.getElementById("sliderY2").value))
+      document.getElementById("sliderYMax").innerHTML = Math.max(document.getElementById("sliderY1").value,document.getElementById("sliderY2").value)
+      document.getElementById("sliderYstep").innerHTML = parseFloat(document.getElementById("sliderYMax").innerHTML - document.getElementById("sliderYMin").innerHTML).toPrecision(3)
+
+      document.getElementById("sliderZMin").innerHTML = Math.min((document.getElementById("sliderZ1").value),(document.getElementById("sliderZ2").value))
+      document.getElementById("sliderZMax").innerHTML = Math.max(document.getElementById("sliderZ1").value,document.getElementById("sliderZ2").value)
+      document.getElementById("sliderZstep").innerHTML = parseFloat(document.getElementById("sliderZMax").innerHTML - document.getElementById("sliderZMin").innerHTML).toPrecision(3)
+
+      document.getElementById("sliderWMin").innerHTML = Math.min((document.getElementById("sliderW1").value),(document.getElementById("sliderW2").value))
+      document.getElementById("sliderWMax").innerHTML = Math.max(document.getElementById("sliderW1").value,document.getElementById("sliderW2").value)
+      document.getElementById("sliderWstep").innerHTML = parseFloat(document.getElementById("sliderWMax").innerHTML - document.getElementById("sliderWMin").innerHTML).toPrecision(3)
+
+
+    }
+    function UpdateTailleImg(){
+      document.getElementById("ValueTailleImg").innerHTML =  document.getElementById("TailleImg").value
+    }
+
+    UpdateSlider2()
+    UpdateTailleImg()
+    UpdateNumerisation()
+    scarlet3D()
+    Images()
+    Analyse()
+    UpdateAnalyse()
+  // Or with jQuery
+
+  $(document).ready(function(){
+    $('select').formSelect();
+  });
+
+
+  </script>
+  <!--
   <footer class="page-footer orange">
     <div class="container">
       <div class="row">
@@ -120,12 +283,13 @@
       </div>
     </div>
   </footer>
-
+-->
 
   <!--  Scripts-->
+  
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!--<script href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/12.0.0/nouislider.js"></script>-->
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
-
   </body>
 </html>
