@@ -10,6 +10,13 @@
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/12.0.0/nouislider.css" rel="stylesheet">
+
+
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!--<script href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/12.0.0/nouislider.js"></script>-->
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+
 </head>
 <body>
   <nav class="light-blue lighten-1" role="navigation">
@@ -47,7 +54,7 @@
   <div class="container">
     <div class="section">
       <form action="#">
-        <h3>Constante</h3>
+        <h3>Constante</h3>  <a onclick="RandomC()" id="download-button" class="btn-large waves-effect waves-light orange">Générateur aléatoire</a>
         <h5> Valeur de X (i) : <span id="ValueX">  </span>  </h5>
         <p class="range-field">
           <input type="range" id="RValueX" min="-4" max="4" step="0.01"  onchange="UpdateSlider()" />
@@ -65,8 +72,11 @@
           <input type="range" id="RValueW" min="-4" max="4" step="0.01"  onchange="UpdateSlider()" />
         </p>
         <h5> Norme du quaternion : <span id="ValueN">  </span>  </h5>
+        <br>
         <hr>
+        <br>
         <h3>Plage de recherche</h3>
+        <a onclick="BorneAuto()" id="download-button" class="btn-large waves-effect waves-light orange">Borne Auto</a>
         <h5> Valeur de X (i) entre <span id="sliderXMin">  </span>  et <span id="sliderXMax">  </span> soit une plage de  <span id="sliderXstep">  </span> </h5>
         <p class="range-field">
           <input type="range" id="sliderX1" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
@@ -95,12 +105,101 @@
         <p class="range-field">
           <input type="range" id="sliderW2" min="-8" max="8" step="0.01"  onchange="UpdateSlider2()" />
         </p>
+        <br>
+        <hr>
+        <br>
+        <h3>Sorties : </h3>
+        <h4> Images :  <div class="switch" onchange="Images()">
+          <label>
+            Off
+            <input type="checkbox" id="switchImage">
+            <span class="lever"></span>
+            On
+          </label>
+        </div>
+      </h4>
+        <div id="Images">
+        <div class="input-field col s12">
+          <select>
+            <option value="W">Axe W</option>
+            <option value="X">Axe X</option>
+            <option value="Y">Axe Y</option>
+            <option value="Z">Axe Z</option>
+          </select>
+          <label>Axe du temps (T)</label>
+        </div>
+        <h5> Taille d'une image : <span id="ValueTailleImg">  </span>  Mo </h5>
+        <p class="range-field">
+          <input type="range" id="TailleImg" min="0.1" max="100" step="0.1"  onchange="UpdateTailleImg()" />
+        </p>
+      </div>
 
-        
+      <h4> scarlet 3D :  <div class="switch" onchange="scarlet3D()">
+        <label>
+          Off
+          <input type="checkbox" id="switchscarlet3D">
+          <span class="lever"></span>
+          On
+        </label>
+      </div>
+    </h4>
+    <div id="scarlet3D">
+      <div class="input-field col s12">
+        <select>
+          <option value="W">Axe W</option>
+          <option value="X">Axe X</option>
+          <option value="Y">Axe Y</option>
+          <option value="Z">Axe Z</option>
+        </select>
+        <label>Axe du temps (T)</label>
+      </div>
+      <h5> Pas de numerisation : <span id="ValueNumerisation">  </span></h5>
+        <p class="range-field">
+          <input type="range" id="Numerisation" min="0.01" max="0.5" step="0.01"  onchange="UpdateNumerisation()" />
+        </p>
+    </div>
       </form>
     </div>
   </div>
   <script>
+    function Images(){
+      if(!document.getElementById("switchImage").checked){
+        document.getElementById("Images").style.display = "none";
+      } else {
+        document.getElementById("Images").style.display = "block";
+      }
+    }
+
+
+    function scarlet3D(){
+      if(!document.getElementById("switchscarlet3D").checked){
+        document.getElementById("scarlet3D").style.display = "none";
+      } else {
+        document.getElementById("scarlet3D").style.display = "block";
+      }
+    }
+    function UpdateNumerisation(){
+      document.getElementById("ValueNumerisation").innerHTML =  document.getElementById("Numerisation").value
+    }
+    function RandomC(){
+      document.getElementById("RValueX").value = (Math.random()-0.5)*3
+      document.getElementById("RValueY").value = (Math.random()-0.5)*3
+      document.getElementById("RValueZ").value = (Math.random()-0.5)*3
+      document.getElementById("RValueW").value = (Math.random()-0.5)*3
+      UpdateSlider()
+    }
+    function BorneAuto(){
+      document.getElementById("sliderX1").value = -4.0
+      document.getElementById("sliderX2").value = 4.0
+      document.getElementById("sliderY1").value = -4.0
+      document.getElementById("sliderY2").value = 4.0
+      document.getElementById("sliderZ1").value = -4.0
+      document.getElementById("sliderZ2").value = 4.0
+      document.getElementById("sliderW1").value = -4.0
+      document.getElementById("sliderW2").value = 4.0
+      UpdateSlider2()
+    }
+
     function UpdateSlider2(){
       document.getElementById("sliderXMin").innerHTML = Math.min(parseFloat(document.getElementById("sliderX1").value),parseFloat(document.getElementById("sliderX2").value))
       document.getElementById("sliderXMax").innerHTML = Math.max(document.getElementById("sliderX1").value,document.getElementById("sliderX2").value)
@@ -120,8 +219,9 @@
 
 
     }
-
-   
+    function UpdateTailleImg(){
+      document.getElementById("ValueTailleImg").innerHTML =  document.getElementById("TailleImg").value
+    }
 
     function UpdateSlider(){
       document.getElementById("ValueX").innerHTML =  document.getElementById("RValueX").value
@@ -134,6 +234,17 @@
     }
     UpdateSlider2()
     UpdateSlider()
+    UpdateTailleImg()
+    UpdateNumerisation()
+    scarlet3D()
+    Images()
+  // Or with jQuery
+
+  $(document).ready(function(){
+    $('select').formSelect();
+  });
+
+
   </script>
   <!--
   <footer class="page-footer orange">
