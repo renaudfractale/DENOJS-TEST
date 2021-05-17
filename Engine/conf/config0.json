@@ -39,7 +39,7 @@
         "T" : "x",
         "Step" : 0.001
     },
-    "Analyse" : {
+    "analyse" : {
         "etat" : true,
         "T" : "x",
         "Step" : 0.001

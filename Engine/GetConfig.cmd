@@ -1,0 +1,1 @@
+deno run --unstable --allow-read .\GetConfig.ts   --file .\conf\config0.json
