@@ -98,7 +98,7 @@
         </div>
       </h4>
         <div id="Images">
-        <div class="input-field col s12">
+        <div id="ImagesSelect" class="input-field col s12">
           <select>
             <option value="W">Axe W</option>
             <option value="X">Axe X</option>
@@ -123,7 +123,7 @@
       </div>
     </h4>
     <div id="scarlet3D">
-      <div class="input-field col s12">
+      <div id="scarlet3DSelect" class="input-field col s12">
         <select>
           <option value="W">Axe W</option>
           <option value="X">Axe X</option>
@@ -132,9 +132,9 @@
         </select>
         <label>Axe du temps (T)</label>
       </div>
-      <h5> Pas de numerisation : <span id="ValueNumerisation">  </span></h5>
+      <h5> Pas de numerisation : <span id="ValueNumerisation">  </span> soit un nombre de point maximal de <span id="ValueNumerisationPt"> </h5>
         <p class="range-field">
-          <input type="range" id="Numerisation" min="0.01" max="0.5" step="0.01"  onchange="UpdateNumerisation()" />
+          <input type="range" id="Numerisation" min="0.001" max="0.5" step="0.001"  onchange="UpdateNumerisation()" />
         </p>
     </div>
     <h4>  Analyse :  <div class="switch" onchange="Analyse()">
@@ -147,7 +147,7 @@
     </div>
   </h4>
   <div id="Analyse">
-    <div class="input-field col s12">
+    <div id="AnalyseSelect" class="input-field col s12">
       <select>
         <option value="W">Axe W</option>
         <option value="X">Axe X</option>
@@ -156,15 +156,80 @@
       </select>
       <label>Axe du temps (T)</label>
     </div>
-    <h5> Pas de numerisation : <span id="ValueAnalyse">  </span></h5>
+    <h5> Pas de numerisation : <span id="ValueAnalyse">  </span>soit un nombre de point maximal de <span id="ValueAnalysePt">  </span> </h5>
       <p class="range-field">
-        <input type="range" id="RangeAnalyse" min="0.01" max="0.25" step="0.01"  onchange="UpdateAnalyse()" />
+        <input type="range" id="RangeAnalyse" min="0.001" max="0.25" step="0.001"  onchange="UpdateAnalyse()" />
       </p>
+  </div> <div id="download-button" >
+    <a onclick="CreateJSONFile()" class="btn-large orange" style="width: 100%;">Générateur de Json</a>
   </div>
       </form>
     </div>
   </div>
   <script>
+     function download(filename, text) {
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+
+      document.body.removeChild(element);
+    }
+    function CreateJSONFile(){
+      let obj = new Object()
+      obj.type = 1
+      obj.cst = []
+      obj.simulation=  {
+        "x" :{
+            "min" : document.getElementById("sliderXMin").innerHTML,
+            "max" :document.getElementById("sliderXMax").innerHTML
+
+        },
+        "y" :{
+            "min" : document.getElementById("sliderYMin").innerHTML,
+            "max" :document.getElementById("sliderYMax").innerHTML
+
+
+        },
+        "z" :{
+            "min" : document.getElementById("sliderZMin").innerHTML,
+            "max" :document.getElementById("sliderZMax").innerHTML
+
+        },
+        "w" :{
+            "min" : document.getElementById("sliderWMin").innerHTML,
+            "max" :document.getElementById("sliderWMax").innerHTML
+
+        }}
+        obj.images = {
+          "etat" : document.getElementById("switchImage").checked,
+          "T" : document.getElementById("ImagesSelect").getElementsByClassName("selected")[0].getElementsByTagName("span")[0].innerHTML.replace("Axe ",""),
+          "Size" : document.getElementById("TailleImg").value,
+          "unite" : "Mo"
+        }
+        obj.scarlet3D =  {
+        "etat" : document.getElementById("switchscarlet3D").checked,
+        "T" : document.getElementById("scarlet3DSelect").getElementsByClassName("selected")[0].getElementsByTagName("span")[0].innerHTML.replace("Axe ",""),
+        "Step" : document.getElementById("Numerisation").value
+        }
+        obj.analyse = {
+        "etat" : document.getElementById("switchAnalyse").checked,
+        "T" : document.getElementById("AnalyseSelect").getElementsByClassName("selected")[0].getElementsByTagName("span")[0].innerHTML.replace("Axe ",""),
+        "Step" :document.getElementById("RangeAnalyse").value
+      }
+
+      console.log(obj)
+      let t = new Date().getTime()
+      download("Mandelbrot-"+ t.toString()+".json", JSON.stringify(obj))
+    }
+
+
+
+
     function Images(){
       if(!document.getElementById("switchImage").checked){
         document.getElementById("Images").style.display = "none";
@@ -192,10 +257,16 @@
 
     function UpdateNumerisation(){
       document.getElementById("ValueNumerisation").innerHTML =  document.getElementById("Numerisation").value
+
+      let Max = Math.max( document.getElementById("sliderXstep").innerHTML, document.getElementById("sliderYstep").innerHTML, document.getElementById("sliderZstep").innerHTML, document.getElementById("sliderWstep").innerHTML)
+      document.getElementById("ValueNumerisationPt").innerHTML = Math.floor(Max/document.getElementById("Numerisation").value)
     }
 
     function UpdateAnalyse(){
       document.getElementById("ValueAnalyse").innerHTML =  document.getElementById("RangeAnalyse").value
+
+      let Max = Math.max( document.getElementById("sliderXstep").innerHTML, document.getElementById("sliderYstep").innerHTML, document.getElementById("sliderZstep").innerHTML, document.getElementById("sliderWstep").innerHTML)
+      document.getElementById("ValueAnalysePt").innerHTML = Math.floor(Max/document.getElementById("RangeAnalyse").value)
     }
     function BorneAuto(){
       document.getElementById("sliderX1").value = -4.0
@@ -226,7 +297,8 @@
       document.getElementById("sliderWMax").innerHTML = Math.max(document.getElementById("sliderW1").value,document.getElementById("sliderW2").value)
       document.getElementById("sliderWstep").innerHTML = parseFloat(document.getElementById("sliderWMax").innerHTML - document.getElementById("sliderWMin").innerHTML).toPrecision(3)
 
-
+      UpdateNumerisation()
+      UpdateAnalyse()
     }
     function UpdateTailleImg(){
       document.getElementById("ValueTailleImg").innerHTML =  document.getElementById("TailleImg").value
