@@ -1,1 +1,1 @@
-deno run --unstable --allow-read .\GetConfig.ts   --file .\conf\config0.json
+deno run --v8-flags=--max-old-space-size=8000 --unstable --allow-read  --allow-write .\GetConfig.ts   --file .\conf\config0.json
