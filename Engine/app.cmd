@@ -1,0 +1,1 @@
+deno run --v8-flags=--max-old-space-size=8000 --unstable  --allow-write --allow-read  app.ts

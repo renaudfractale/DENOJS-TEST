@@ -1,0 +1,82 @@
+{
+    "parameterPlot": {
+        "power": 2,
+        "rmax": 4,
+        "nbLoopMax": 254,
+        "axeT": {
+            "valueMin": -0.1,
+            "valueMax": -0.1,
+            "valueStep": 0,
+            "nbPoints": 1,
+            "plotAxe": 0,
+            "qAxe": 3,
+            "order": -1
+        },
+        "axeX": {
+            "valueMin": -1.5,
+            "valueMax": 0.5,
+            "valueStep": 2,
+            "nbPoints": 1000,
+            "plotAxe": 1,
+            "qAxe": 0,
+            "order": 0
+        },
+        "axeY": {
+            "valueMin": -1,
+            "valueMax": 1,
+            "valueStep": 2,
+            "nbPoints": 1000,
+            "plotAxe": 2,
+            "qAxe": 1,
+            "order": 1
+        },
+        "axeZ": {
+            "valueMin": -1,
+            "valueMax": 0,
+            "valueStep": 1,
+            "nbPoints": 1000,
+            "plotAxe": 3,
+            "qAxe": 2,
+            "order": 2
+        }
+    },
+    "parameterGlobale": {
+        "power": 2,
+        "rmax": 4,
+        "nbLoopMax": 254,
+        "axeW": {
+            "valueMin": -1.5,
+            "valueMax": 0.5,
+            "valueStep": 2,
+            "nbPoints": 1000,
+            "plotAxe": 1,
+            "qAxe": 0
+        },
+        "axeX": {
+            "valueMin": -1,
+            "valueMax": 1,
+            "valueStep": 2,
+            "nbPoints": 1000,
+            "plotAxe": 2,
+            "qAxe": 1
+        },
+        "axeY": {
+            "valueMin": -1,
+            "valueMax": 0,
+            "valueStep": 1,
+            "nbPoints": 1000,
+            "plotAxe": 3,
+            "qAxe": 2
+        },
+        "axeZ": {
+            "valueMin": -0.1,
+            "valueMax": 0.1,
+            "valueStep": 0.2,
+            "nbPoints": 3,
+            "plotAxe": 0,
+            "qAxe": 3
+        },
+        "id": "f378b2b7-afd2-44b3-bc6f-abcd1adf4975"
+    },
+    "id": "a06e741d-5c2e-4485-a161-7321d6cf1d94"
+}
