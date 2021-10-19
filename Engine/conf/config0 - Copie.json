@@ -37,11 +37,11 @@
     "scarlet3D" : {
         "etat" : true,
         "T" : "x",
-        "Step" : 0.01
+        "Step" : 0.001
     },
     "analyse" : {
         "etat" : true,
         "T" : "x",
-        "Step" : 0.01
+        "Step" : 0.001
     }
 }
